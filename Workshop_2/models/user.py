@@ -1,9 +1,9 @@
 from password import generate_salt, password_hash, check_password
-from psycopg2 import connect
+#from psycopg2 import connect
 
 class User:
     def __init__(self):
-        self.__id = -1
+        self.__id = None
         self.username = ""
         self.email = ""
         self.__hashed_password = ""
@@ -20,7 +20,7 @@ class User:
         self.__hashed_password = password_hash(password, salt)
 
     def save_to_db(self, cursor):
-        if self.__id == -1:
+        if self.__id == None:
             sql = """INSERT INTO Users(username, email, hashed_password)
                                 VALUES(%s, %s, %s) RETURNING id"""
             values = (self.username, self.email, self.hashed_password)
@@ -67,11 +67,15 @@ class User:
             loaded_user.email = row[2]
             loaded_user.__hashed_password = row[3]
             ret.append(loaded_user)
-        return ret
+        if len(ret) > 0:
+            return ret
+        else:
+            return None
 
-
+"""
 con = connect(host='localhost', user='postgres', password='coderslab', dbname='workshop2')
 cur = con.cursor()
+
 
 a = User()
 a.email = 'mail6@wp.pl'
@@ -88,7 +92,7 @@ con.commit()
 cur.close()
 con.close()
 
-"""
+
 con = connect(host='localhost', user='postgres', password='coderslab', dbname='workshop2')
 cur = con.cursor()
 
