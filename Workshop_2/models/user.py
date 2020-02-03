@@ -1,4 +1,4 @@
-from password import generate_salt, password_hash, check_password
+from models import generate_salt, password_hash, check_password
 #from psycopg2 import connect
 
 class User:
@@ -72,36 +72,17 @@ class User:
         else:
             return None
 
-"""
-con = connect(host='localhost', user='postgres', password='coderslab', dbname='workshop2')
-cur = con.cursor()
-
-
-a = User()
-a.email = 'mail6@wp.pl'
-a.username = 'Jerzy'
-a.set_password('asd4','1234')
-#print(a.hashed_password)
-#a = a.load_user_by_id(cur,2)
-#a.username = 'GZ2'
-a.save_to_db(cur)
-#print([i.email for i in a.load_all_users(cur)])
-#b.delete(cur)
-
-con.commit()
-cur.close()
-con.close()
-
-
-con = connect(host='localhost', user='postgres', password='coderslab', dbname='workshop2')
-cur = con.cursor()
-
-a = User()
-a = a.load_user_by_id(cur,2)
-a.username = 'GZ2'
-a.save_to_db(cur)
-
-con.commit()
-cur.close()
-con.close()
-"""
+"""    @staticmethod
+    def load_user_by_email(cursor, email):
+        sql = "SELECT id, username, email, hashed_password FROM users WHERE email=%s"
+        cursor.execute(sql, (email,))
+        data = cursor.fetchone()
+        if data:
+            loaded_user = User()
+            loaded_user.__id = data[0]
+            loaded_user.username = data[1]
+            loaded_user.email = data[2]
+            loaded_user.__hashed_password = data[3]
+            return loaded_user
+        else:
+            return None"""
