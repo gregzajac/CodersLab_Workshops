@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>
+        <a><b>Dane sali do usunięcia:</b></a>
+    </p><br>
+    <table>
+        <tr>
+            <td><a>Nazwa: </a></td>
+            <td> ............... </td>
+            <td><a>{{ room.name }}</a></td>
+        </tr>
+        <tr>
+            <td><a>Pojemność: </a></td>
+            <td> ............... </td>
+            <td><a>{{ room.capacity }}</a></td>
+        </tr>
+        <tr>
+            <td><a>Czy jest rzutnik: </a></td>
+            <td> ............... </td>
+            <td>{% if room.has_projector  %} <a>Tak</a> {% else %} <a>Nie</a> {% endif %}</td>
+        </tr>
+    </table><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" name="manage" value="Usuń" class="button">
+        <input type="submit" name="manage" value="Anuluj" class="button">
+    </form>
+
+{% endblock %}

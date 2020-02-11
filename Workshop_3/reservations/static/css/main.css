@@ -1,0 +1,67 @@
+/* reset marginesów i dopełnień*/
+html, body, ul, li, table { margin: 0; padding: 0; }
+
+/* reset wysokości linii i fontu*/
+h1, h2, h3, h4, ul, li, ol, p, tr, td { margin:0; padding:0; font-size: 1em;
+line-height: 1.5em; }
+
+/* ustawienia ogólne */
+body { background: cornsilk;
+font: 0.625em/1.5em arial, tahoma, verdana, sans-serif; }
+
+/* szerokość strony */
+.content { width: 980px; margin: 0 auto; overflow: hidden; }
+
+/*czcionka*/
+p, a, li, tr { color: #304055; font-size: 1.4em;
+font-family: arial, tahoma, verdana, sans-serif; }
+
+/* header */
+header { position: relative; background: cornsilk;
+border-bottom: 2px solid #304055; }
+
+header .content { overflow: hidden; text-align: center; }
+
+header h1 { position: relative; font-size: 2.5em}
+header h1 a { display: block; padding: 10px; margin-top: 10px;
+font-size: 1.4em; outline: none; clear: both;
+text-transform: uppercase; text-decoration: none; }
+
+header nav { clear: both; }
+header nav ul { overflow: hidden; position: relative;
+list-style: none; float: left; }
+header nav ul li { float: left; }
+header nav ul li a { display: block; padding: 17px 0px 9px 0px;
+margin-right: 3px; width: 241px; height: 20px; text-align: center;
+text-decoration: none; outline: none; background: sandybrown; }
+
+/*zmiana tła po najechaniu myszką na menu*/
+header nav ul li a:hover { background: darksalmon; }
+
+#main { position: relative; }
+#main .content { margin-bottom: 30px; margin-top: 30px}
+#main table tr { height: 30px}
+
+.button { width: 140px; height: 35px; background-color: sandybrown;
+font-size: 1.6em; color: #304055; margin-top: 30px}
+/*
+#main .text { padding: 10px 80px 20px 80px; margin: 0px 0px 20px 0px;
+background: #304055; border: 3px solid #202a38; }
+
+#main .text h3 { color: #e0e0e0; font-weight: 100; font-size: 2.4em; }
+#main .text p { color: #e0e0e0; }
+
+#main section article { overflow: hidden; padding: 20px;
+background: #ffffff; border: 1px solid #e0e0e0; }
+
+#main h2 { margin-bottom: 10px; color: #e90000; font-size: 18px;
+padding: 5px; border: 1px solid #e0e0e0; background: #ffffff;
+
+#main article a.wiecej { margin-top: 10px; font-weight: bold;
+float: right; }
+#main article a:hover { text-decoration: none; }*/
+
+
+footer { position: relative; }
+
+

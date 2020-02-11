@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>
+        <a><b>Wprowadź dane sali:</b></a>
+    </p><br>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td><a>Nazwa sali:</a></td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td><a>Pojemność:</a></td>
+                <td><input type="text" name="capacity"></td>
+            </tr>
+            <tr>
+                <td><a>Czy ma rzutnik:</a></td>
+                <td>
+                    <select name="has_projector">
+                        <option value="True">Tak</option>
+                        <option value="False">Nie</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" name="manage" value="Dodaj" class="button">
+        <input type="submit" name="manage" value="Anuluj" class="button">
+    </form>
+
+{% endblock %}

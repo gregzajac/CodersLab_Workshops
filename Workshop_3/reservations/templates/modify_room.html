@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>
+        <a><b>Zmodyfikuj dane sali:</b></a>
+    </p><br>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td><a>Nazwa sali:</a></td>
+                <td><input type="text" name="name" value={{ room.name }}></td>
+            </tr>
+            <tr>
+                <td><a>Pojemność:</a></td>
+                <td><input type="text" name="capacity" value={{ room.capacity }}></td>
+            </tr>
+            <tr>
+                <td><a>Czy ma rzutnik:</a></td>
+                <td>
+                    <select name="has_projector">
+                        <option value="True" {% if not room.has_projector %} selected {% endif %}>Tak</option>
+                        <option value="False" {% if not room.has_projector %} selected {% endif %}>Nie</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" name="manage" value="Zmień" class="button">
+        <input type="submit" name="manage" value="Anuluj" class="button">
+    </form>
+{% endblock %}

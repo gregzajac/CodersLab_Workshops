@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Rezerwacje</title>
+</head>
+<body>
+    <header>
+        <div class="content">
+            <h1><a>System rezerwacji sal</a></h1>
+            <nav>
+                <ul>
+                    <li><a id="currentpage" href="/">Sale</a></li>
+                    <li><a href="o-firmie.html">Rezerwacje</a></li>
+                    <li><a href="oferta.html">Wyszukaj</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="main">
+        <div class="content">
+                {% block content %}
+                {% endblock %}
+        </div>
+    </div>
+
+
+</body>
+</html>

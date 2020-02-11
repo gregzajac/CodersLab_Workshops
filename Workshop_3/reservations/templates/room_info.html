@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>
+        <a><b>Nazwa sali: {{ room.name }}</b></a>
+    </p><br>
+    <table>
+        <tr>
+            <td><a>Pojemność sali: </a></td>
+            <td> ............... </td>
+            <td><a>{{ room.capacity }}</a></td>
+        </tr>
+        <tr>
+            <td><a>Czy jest rzutnik: </a></td>
+            <td> ............... </td>
+            <td>{% if room.has_projector  %} <a>Tak</a> {% else %} <a>Nie</a> {% endif %}</td>
+        </tr>
+    </table>
+    <br><br>
+    <p>
+        <a><b>Lista dni, w których sala będzie zajęta:</b></a>
+    </p><br>
+    <table>
+        {% if reservations %}
+            {% for reservation in reservations %}
+                <tr>
+                    <td><a>{{ reservation.date }} </a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <p>
+                <a>Brak rezerwacji</a>
+            </p>
+        {% endif %}
+    </table>
+    <br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" name="manage" value="Zarezerwuj" class="button">
+        <input type="submit" name="manage" value="Anuluj" class="button">
+    </form>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table>
+    <p>
+        <a><b>Sale:</b></a>
+    </p><br>
+    {% for room in rooms_info %}
+        <tr>
+            <td><a href="room/{{ room.0.id }}">{{ room.0.name }}</a></td>
+            <td> ..... ({{ room.1 }}) ............... </td>
+            <td><a href="room/modify/{{ room.0.id }}">Modyfikuj</a></td>
+            <td> ..... </td>
+            <td><a href="room/delete/{{ room.0.id }}">Usuń</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+    <br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" name="add_room" value="Dodaj nową salę" class="button">
+    </form>
+{% endblock %}
