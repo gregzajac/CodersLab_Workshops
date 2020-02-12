@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>
+        <a><b>Znajdź wolną salę:</b></a>
+    </p><br>
+
+    <form>
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td><a>Data rezerwacji:</a></td>
+                <td><input type="date" name="date"></td>
+            </tr>
+            <tr>
+                <td><a>Nazwa sali:</a></td>
+                <td><input type="text" name="name" value=""></td>
+            </tr>
+            <tr>
+                <td><a>Minimalna pojemność:</a></td>
+                <td><input type="number" name="capacity" value="0"></td>
+            </tr>
+            <tr>
+                <td><a>Czy ma rzutnik:</a></td>
+                <td>
+                    <select name="has_projector">
+                        <option value="True" >Tak</option>
+                        <option value="False">Nie</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" name="manage" value="Znajdź" class="button">
+    </form><br><br>
+
+    <table>
+    <p>
+        <a><b>Lista wolnych sal:</b></a>
+    </p><br>
+    {% for room in rooms %}
+        <tr>
+            <td><a href="/room/{{ room.id }}">{{ room.name }}</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+    <p><a>{{ info }}</a></p>
+
+{% endblock %}

@@ -44,23 +44,8 @@ header nav ul li a:hover { background: darksalmon; }
 
 .button { width: 140px; height: 35px; background-color: sandybrown;
 font-size: 1.6em; color: #304055; margin-top: 30px}
-/*
-#main .text { padding: 10px 80px 20px 80px; margin: 0px 0px 20px 0px;
-background: #304055; border: 3px solid #202a38; }
 
-#main .text h3 { color: #e0e0e0; font-weight: 100; font-size: 2.4em; }
-#main .text p { color: #e0e0e0; }
-
-#main section article { overflow: hidden; padding: 20px;
-background: #ffffff; border: 1px solid #e0e0e0; }
-
-#main h2 { margin-bottom: 10px; color: #e90000; font-size: 18px;
-padding: 5px; border: 1px solid #e0e0e0; background: #ffffff;
-
-#main article a.wiecej { margin-top: 10px; font-weight: bold;
-float: right; }
-#main article a:hover { text-decoration: none; }*/
-
+#alert { color: red; font-size: 2em; font-weight: bold }
 
 footer { position: relative; }
 

@@ -24,7 +24,7 @@
         {% if reservations %}
             {% for reservation in reservations %}
                 <tr>
-                    <td><a>{{ reservation.date }} </a></td>
+                    <td><a>{{ reservation.date }}, {{ reservation.comment }} </a></td>
                 </tr>
             {% endfor %}
         {% else %}
