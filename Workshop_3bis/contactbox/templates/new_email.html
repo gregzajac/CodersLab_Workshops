@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    Adres e-mail: <input type="text" name="email">
+    Rodzaj adresu: <input type="text" name="email_type">
+    <input type="submit" name="add_email" value="Dodaj">
+</form>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>Dane szczegółowe:</p>
+        Imię: {{ person.first_name }},
+        Nazwisko: {{ person.last_name }},
+        Opis: {{ person.description }}<br>
+        Adres: {{ person.address.street }} {{ person.address.block_number }}
+                {% if person.address.flat_number %} / {{ person.address.flat_number }} {% endif %}
+                {{ person.address.city }} {{ person.address.post_code }}<br><br>
+        Telefony:<br>
+            {% for phone in phones %}
+                {{ phone.phone_number }} {{ phone.phone_type }}<br>
+            {% endfor %}
+        <a href="/person/{{ person.id }}/add-phone/">Dodaj telefon</a><br><br>
+
+        Adresy e-mail:<br>
+            {% for email in emails %}
+                {{ email.email }} {{ email.email_type }}<br>
+            {% endfor %}
+        <a href="/person/{{ person.id }}/add-email/">Dodaj e-mail</a><br><br>
+        <a href="/delete/{{ person.id }}">Usuń osobę</a>
+{% endblock %}

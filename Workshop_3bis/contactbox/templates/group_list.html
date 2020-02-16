@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for group in groups %}
+        <a href="/group/{{ group.id }}">{{ group.name }} ..... </a>
+        <a href="/delete-group/{{ group.id }}">Usuń</a><br>
+    {% endfor %}
+    <br>
+    <a href="/add-group/">Dodaj nową grupę</a>
+{% endblock %}

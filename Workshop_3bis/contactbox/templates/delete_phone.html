@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form action="" method="POST">
+    {% csrf_token %}
+    Czy na pewno usunąć telefon: {{ phone.phone_number }}?<br>
+
+    <input type="submit" name="delete_phone" value="Usuń">
+</form>
+{% endblock %}

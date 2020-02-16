@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    Imię: <input type="text" name="first_name" value={{ person.first_name }}>
+    Nazwisko: <input type="text" name="last_name" value={{ person.last_name }}>
+    Opis: <input type="text" name="description" value={{ person.description }}><br>
+    Adres:<br>
+    Ulica:<input type="text" name="street" value={{ person.address.street }}>
+    Nr domu:<input type="text" name="block_number" value={{ person.address.block_number }}>
+    Nr mieszkania:<input type="text" name="flat_number" value={{ person.address.flat_number }}>
+    Miasto:<input type="text" name="city" value={{ person.address.city }}>
+    Kod pocztowy:<input type="text" name="post_code" value={{ person.address.post_code }}><br>
+    <br>
+    <input type="submit" name="modify_person" value="Zmień"><br><br>
+    Telefony:<br>
+        {% for phone in phones %}
+            Numer: {{ phone.phone_number }}, typ: {{ phone.phone_type }}
+                <a href="/person/{{ person.id }}/delete-phone/{{ phone.id }}">Usuń telefon</a><br>
+        {% endfor %}
+    <a href="/person/{{ person.id }}/add-phone/">Dodaj telefon</a><br>
+    <br>
+    Adresy e-mail:<br>
+        {% for email in emails %}
+            Adres: {{ email.email }}, typ: {{ email.email_type }}
+                <a href="/person/{{ person.id }}/delete-email/{{ email.id }}">Usuń e-mail</a><br>
+        {% endfor %}
+    <a href="/person/{{ person.id }}/add-email/">Dodaj e-mail</a><br>
+</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    Grupa: {{ group.name }}<br>
+    Lista osób:
+    <select name="person_id">
+        {% for person in persons %}
+            <option value={{ person.id }}>
+                {{ person.first_name }} {{ person.last_name }}<br>
+            </option>
+        {% endfor %}
+    </select><br>
+    <input type="submit" name="add_person" value="Dodaj"><br><br>
+</form>
+{% endblock %}

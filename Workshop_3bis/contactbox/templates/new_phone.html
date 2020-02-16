@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    Numer telefonu: <input type="text" name="phone_number">
+    Rodzaj numeru: <input type="text" name="phone_type">
+    <input type="submit" name="add_phone" value="Dodaj">
+</form>
+{% endblock %}

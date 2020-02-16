@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    Nazwa grupy: {{ group.name }}<br>
+        <br>
+        Kontakty:<br>
+            {% for person in persons %}
+                {{ person.first_name }} {{ person.last_name }} .....
+                <a href="/group/{{ group.id }}/delete-person/{{ person.id }}">Usuń</a><br>
+            {% endfor %}
+        <br>
+        <a href="/group/{{ group.id }}/add-person">Dodaj osobę</a>
+{% endblock %}

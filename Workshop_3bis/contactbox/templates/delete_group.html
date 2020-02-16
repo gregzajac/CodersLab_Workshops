@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form action="" method="POST">
+    {% csrf_token %}
+    Czy na pewno usunąć grupę: {{ group.name }}?<br>
+
+    <input type="submit" name="delete_group" value="Usuń">
+</form>
+{% endblock %}

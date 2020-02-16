@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    Nazwa grupy: <input type="text" name="name">
+    <input type="submit" name="add_group" value="Dodaj grupę"><br><br>
+</form>
+{% endblock %}

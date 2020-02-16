@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form action="" method="POST">
+    {% csrf_token %}
+    Czy na pewno usunąć usobę: {{ person.first_name }} {{ person.last_name }} z grupy {{ group.name }}?<br>
+
+    <input type="submit" name="delete_person" value="Usuń">
+</form>
+{% endblock %}

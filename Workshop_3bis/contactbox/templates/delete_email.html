@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form action="" method="POST">
+    {% csrf_token %}
+    Czy na pewno usunąć e-mail: {{ email.email }}?<br>
+
+    <input type="submit" name="delete_email" value="Usuń">
+</form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    Imię: <input type="text" name="first_name">
+    Nazwisko: <input type="text" name="last_name">
+    Opis: <input type="text" name="description">
+    <select name="address_id">
+        {% for address in addresses %}
+            <option value={{ address.id }}>
+                {{ address.street }} {{ address.block_number }} {{ address.flat_number }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+    <input type="submit" name="add_person" value="Dodaj"><br><br>
+    <a href="/new-address/">Dodaj nowy adres</a>
+</form>
+{% endblock %}

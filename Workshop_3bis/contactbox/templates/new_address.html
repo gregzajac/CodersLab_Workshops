@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    Miasto: <input type="text" name="city">
+    Ulica: <input type="text" name="street">
+    Numer domu: <input type="text" name="block_number">
+    Numer mieszkania: <input type="text" name="flat_number">
+    Kod pocztowy: <input type="text" name="post_code">
+    <input type="submit" name="add_address" value="Dodaj">
+</form>
+{% endblock %}
