@@ -1,4 +1,18 @@
+from django.contrib.auth.models import User
 from django.db import models
+from datetime import datetime, timedelta
+
+
+class Landlord(models.Model):
+    first_name = models.CharField(max_length=64, verbose_name="Imię")
+    last_name = models.CharField(max_length=64, verbose_name="Nazwisko")
+    phone = models.CharField(max_length=16, verbose_name="Telefon", null=True)
+    email = models.CharField(max_length=64, verbose_name="E-mail", null=True)
+    info = models.TextField(verbose_name="Dodatkowe info", null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, verbose_name="Właściciel")
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 
 class Flat(models.Model):
@@ -7,7 +21,9 @@ class Flat(models.Model):
     flat_number = models.CharField(max_length=64, verbose_name="Nr mieszkania", null=True)
     post_code = models.CharField(max_length=16, verbose_name="Kod pocztowy")
     city = models.CharField(max_length=64, verbose_name="Miasto")
-    flat_description = models.TextField(verbose_name="Dodatkowe info", null=True)
+    info = models.TextField(verbose_name="Dodatkowe info", null=True)
+    landlord = models.ForeignKey(Landlord, verbose_name="Właściciel", on_delete=models.CASCADE, null=True)
+    is_for_rent = models.BooleanField(default=True, verbose_name="Czy jest do wynajęcia")
 
     def __str__(self):
         if self.flat_number:
@@ -16,13 +32,25 @@ class Flat(models.Model):
             block_flat_number = f"{self.block_number}"
         return f"{self.street} {block_flat_number}, {self.post_code} {self.city}"
 
+    def get_active_agreement(self):
+        lst = self.agreement_set.filter(date_from__lte=datetime.now().date() , date_to__gte=datetime.now().date())
+        if lst.count() > 0:
+            return lst[0]
+
+    def available_from(self):
+        active_agreement = self.get_active_agreement()
+        if active_agreement:
+            return active_agreement.date_to + timedelta(days=1)
+        return datetime.now().date()
+
 
 class Tenant(models.Model):
     first_name = models.CharField(max_length=64, verbose_name="Imię")
     last_name = models.CharField(max_length=64, verbose_name="Nazwisko")
     phone = models.CharField(max_length=16, verbose_name="Telefon", null=True)
     email = models.CharField(max_length=64, verbose_name="E-mail", null=True)
-    tenant_description = models.TextField(verbose_name="Dodatkowe info", null=True)
+    info = models.TextField(verbose_name="Dodatkowe info", null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, verbose_name="User login")
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -37,7 +65,34 @@ class Agreement(models.Model):
     mth_payment_deadline = models.SmallIntegerField(verbose_name="Termin miesięcznej opłaty")
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, verbose_name="Najemca")
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name="Wynajmowane mieszkanie")
-    agreement_description = models.TextField(verbose_name="Dodatkowe info", null=True)
+    info = models.TextField(verbose_name="Dodatkowe info", null=True)
 
     def __str__(self):
-        return f"{self.code} - {self.flat} - {self.tenant}"
+        return f"{self.code}, {self.agreement_date}"
+
+    def is_active(self):
+        return self.date_from <= datetime.now().date() and self.date_to >= datetime.now().date()
+
+
+class OperationDict(models.Model):
+    PLUS_MINUS = (
+        (1,"PLUS"),
+        (2, "MINUS")
+    )
+    name = models.CharField(max_length=32, verbose_name="Operacja finansowa")
+    plus_minus = models.SmallIntegerField(choices=PLUS_MINUS, verbose_name="Wpływ na saldo rozliczeń")
+
+
+    def __str__(self):
+        return self.name
+
+
+class Operation(models.Model):
+    agreement = models.ForeignKey(Agreement, on_delete=models.CASCADE, verbose_name="Umowa najmu")
+    type = models.ForeignKey(OperationDict, on_delete=models.CASCADE, verbose_name="Typ operacji finansowej")
+    date = models.DateField(verbose_name="Data operacji")
+    value = models.FloatField(verbose_name="Kwota operacji")
+    info = models.TextField(verbose_name="Dodatkowe info", null=True)
+
+    def __str__(self):
+        return f"{self.type} | {self.date} | {self.value}"

@@ -121,4 +121,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
 #ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']

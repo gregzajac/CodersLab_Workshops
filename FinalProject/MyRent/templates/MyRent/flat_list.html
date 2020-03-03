@@ -1,7 +1,36 @@
 {% extends "base.html" %}
 
+{% block title %}Mieszkania{% endblock %}
+
 {% block content %}
-    {% for flat in object_list %}
-        {{ flat }}<br>
-    {% endfor %}
+    <div>
+      <b>Właściciel:</b> {{ object_list.0.landlord }}<br>
+      <b>E-mail:</b> {{ object_list.0.landlord.email }}<br>
+      <b>Telefon kontaktowy:</b> {{ object_list.0.landlord.phone }}
+    </div><br>
+
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Nr</th>
+          <th scope="col">Mieszkanie</th>
+          <th scope="col">Opis</th>
+          <th scope="col">Wolne od</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for flat in object_list %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ flat }}</td>
+            <td>{{ flat.info }}</td>
+            <td>{{ flat.available_from}}</td>
+            <td><a href="/myrent/flat/{{ flat.id }}">Zdjęcia</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
 {% endblock %}
