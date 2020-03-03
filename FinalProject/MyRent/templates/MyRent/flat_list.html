@@ -9,8 +9,9 @@
       <b>Telefon kontaktowy:</b> {{ object_list.0.landlord.phone }}
     </div><br>
 
+    <div class="table-responsive">
     <table class="table">
-      <thead class="thead-light">
+      <thead style="background-color: aliceblue">
         <tr>
           <th scope="col">Nr</th>
           <th scope="col">Mieszkanie</th>
@@ -31,6 +32,7 @@
         {% endfor %}
       </tbody>
     </table>
+    </div>
 
 
 {% endblock %}

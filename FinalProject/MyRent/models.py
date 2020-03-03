@@ -11,6 +11,10 @@ class Landlord(models.Model):
     info = models.TextField(verbose_name="Dodatkowe info", null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, verbose_name="Właściciel")
 
+    class Meta:
+        verbose_name = u'Właściciel'
+        verbose_name_plural = u'Właściciele'
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -25,6 +29,10 @@ class Flat(models.Model):
     landlord = models.ForeignKey(Landlord, verbose_name="Właściciel", on_delete=models.CASCADE, null=True)
     is_for_rent = models.BooleanField(default=True, verbose_name="Czy jest do wynajęcia")
 
+    class Meta:
+        verbose_name = u'Mieszkanie'
+        verbose_name_plural = u'Mieszkania'
+
     def __str__(self):
         if self.flat_number:
             block_flat_number = f"{self.block_number}/{self.flat_number}"
@@ -33,7 +41,7 @@ class Flat(models.Model):
         return f"{self.street} {block_flat_number}, {self.post_code} {self.city}"
 
     def get_active_agreement(self):
-        lst = self.agreement_set.filter(date_from__lte=datetime.now().date() , date_to__gte=datetime.now().date())
+        lst = self.agreement_set.filter(date_from__lte=datetime.now().date(), date_to__gte=datetime.now().date())
         if lst.count() > 0:
             return lst[0]
 
@@ -52,6 +60,10 @@ class Tenant(models.Model):
     info = models.TextField(verbose_name="Dodatkowe info", null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, verbose_name="User login")
 
+    class Meta:
+        verbose_name = u'Najemca'
+        verbose_name_plural = u'Najemcy'
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -67,21 +79,28 @@ class Agreement(models.Model):
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name="Wynajmowane mieszkanie")
     info = models.TextField(verbose_name="Dodatkowe info", null=True)
 
+    class Meta:
+        verbose_name = u'Umowa'
+        verbose_name_plural = u'Umowy'
+
     def __str__(self):
         return f"{self.code}, {self.agreement_date}"
 
     def is_active(self):
-        return self.date_from <= datetime.now().date() and self.date_to >= datetime.now().date()
+        return self.date_from <= datetime.now().date() <= self.date_to
 
 
 class OperationDict(models.Model):
     PLUS_MINUS = (
-        (1,"PLUS"),
+        (1, "PLUS"),
         (2, "MINUS")
     )
     name = models.CharField(max_length=32, verbose_name="Operacja finansowa")
     plus_minus = models.SmallIntegerField(choices=PLUS_MINUS, verbose_name="Wpływ na saldo rozliczeń")
 
+    class Meta:
+        verbose_name = u'Typ operacji finansowej'
+        verbose_name_plural = u'Typy operacji finansowych'
 
     def __str__(self):
         return self.name
@@ -93,6 +112,10 @@ class Operation(models.Model):
     date = models.DateField(verbose_name="Data operacji")
     value = models.FloatField(verbose_name="Kwota operacji")
     info = models.TextField(verbose_name="Dodatkowe info", null=True)
+
+    class Meta:
+        verbose_name = u'Operacja finansowa'
+        verbose_name_plural = u'Operacje finansowe'
 
     def __str__(self):
         return f"{self.type} | {self.date} | {self.value}"

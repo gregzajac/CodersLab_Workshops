@@ -6,6 +6,13 @@ from MyRent.models import Flat, Agreement, Operation, Tenant
 class FlatListView(ListView):
     model = Flat
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            flats = Flat.objects.all().order_by("-is_for_rent")
+        else:
+            flats = Flat.objects.filter(is_for_rent=True)
+        return flats
 
 # class FlatDetailView(DetailView):
 #     model = Flat
@@ -17,10 +24,10 @@ class AgreementListView(ListView):
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser:
-            agreements = Agreement.objects.all()
+            agreements = Agreement.objects.all().order_by("-agreement_date")
         else:
             tenant = Tenant.objects.get(user=user)
-            agreements = Agreement.objects.filter(tenant=tenant)
+            agreements = Agreement.objects.filter(tenant=tenant).order_by("-agreement_date")
         return agreements
 
 
@@ -29,7 +36,7 @@ class AgreementDetailView(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=None, **kwargs)
-        operations = Operation.objects.filter(agreement=self.object)
+        operations = Operation.objects.filter(agreement=self.object).order_by("date")
         ctx.update({'operations': operations})
 
         balance = 0
