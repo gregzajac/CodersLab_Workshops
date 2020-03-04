@@ -23,6 +23,8 @@
           <th scope="col">Mieszkanie</th>
           <th scope="col">Dodatkowe informacje</th>
           <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
 
@@ -38,7 +40,13 @@
             <td>{{ agreement.mth_payment_deadline}}</td>
             <td>{{ agreement.flat}}</td>
             <td>{{ agreement.info}}</td>
-            <td><a href="/myrent/agreement/{{ agreement.id }}">Szczegóły</a></td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkblue"
+                      onclick="location.href='{% url "agreement-detail" agreement.id %}'">
+                Rozliczenia
+              </button>
+
+            </td>
           </tr>
         {% endfor %}
       </tbody>

@@ -6,3 +6,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
     p_balance.innerHTML = `<span>tralalala</span>`
 });
+
+$(function () {
+$("#mdb-lightbox-ui").load("mdb-addons/mdb-lightbox-ui.html");
+});

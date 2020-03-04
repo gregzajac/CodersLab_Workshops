@@ -121,7 +121,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'flat-list'
 LOGOUT_REDIRECT_URL = 'home'
+
+# Pictures
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media'
+
+# Sessions
+SESSION_COOKIE_AGE = 3600
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 #ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']

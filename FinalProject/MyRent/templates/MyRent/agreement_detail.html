@@ -6,7 +6,7 @@
   {% if user.is_authenticated %}
 
     <div>
-      <b>Umowa:</b> {{ object }}<br>
+      <b>Umowa:</b> {{ object.code }}, najem od {{ object.date_from }} do {{ object.date_to }}<br>
       <b>Mieszkanie:</b> {{ object.flat }}<br>
       <b>Najemca:</b> {{ object.tenant }}
     </div><br>
@@ -42,6 +42,13 @@
 
       </tbody>
     </table>
+    </div>
+
+    <div class="container">
+      <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+               onclick="location.href='{% url "add-obligations" object.id %}'">
+        Generuj naliczenia
+      </button>
     </div>
 
   {% endif %}

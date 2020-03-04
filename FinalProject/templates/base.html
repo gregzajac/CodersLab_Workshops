@@ -10,6 +10,7 @@
         crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href='{% static "MyRent/css/main.css" %}'>
 </head>
+
 <body class="d-flex flex-column h-100">
   <header>
     <h2 >Wynajem mieszkań</h2>
@@ -24,11 +25,15 @@
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
               <a class="nav-link text-light"
-                 href="{% url 'agreement-list' %}">Umowy/Rozliczenia</a>
+                 href="{% url 'agreement-list' %}">Umowy</a>
             </li>
           </ul>
           <span class="navbar-text text-light">
             Witaj {% block logged_user %}{{ user }}{% endblock %}!
+          </span>
+          <span class="navbar-nav">
+              <a class="nav-link text-light font-weight-bold"
+                 href="{% url 'user-pwd-change' %}">Zmień hasło</a>
           </span>
 
           <span class="navbar-nav">
@@ -62,6 +67,9 @@
   <footer class="footer mt-auto py-3">
     <div>
       <span> Wersja 0.1, Autor: Grzegorz Zając</span>
+      {% if not user.is_authenticated %}
+        <span style="float: right"><a href="/admin/">Admin panel</a></span>
+      {% endif %}
     </div>
   </footer>
 

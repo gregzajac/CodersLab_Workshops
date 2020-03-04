@@ -1,6 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-from MyRent.models import Flat, Agreement, Operation, Tenant
+from datetime import datetime, timedelta
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from MyRent.models import Flat, Agreement, Operation, Tenant, OperationDict
 
 
 class FlatListView(ListView):
@@ -14,8 +18,15 @@ class FlatListView(ListView):
             flats = Flat.objects.filter(is_for_rent=True)
         return flats
 
-# class FlatDetailView(DetailView):
-#     model = Flat
+
+class FlatDetailView(DetailView):
+    model = Flat
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(object_list=None, **kwargs)
+        images = self.object.image_set.all()
+        ctx.update({'images': images})
+        return ctx
 
 
 class AgreementListView(ListView):
@@ -41,28 +52,61 @@ class AgreementDetailView(DetailView):
 
         balance = 0
         for operation in operations:
-            if operation.type.plus_minus == 2:  #zobowiązania
-                balance -= operation.value
-            elif operation.type.plus_minus == 1:  #należności
-                balance += operation.value
+            balance += operation.value
         ctx.update({'balance': balance})
         return ctx
 
 
-# class OperationListView(ListView):
-#     model = Operation
-#
-#     def get_queryset(self):
-#         user = self.request.user
-#         tenant = Tenant.objects.get(user=user)
-#         agreements = Agreement.objects.filter(tenant=tenant)
-#         operations = Operation.objects.filter(agreement__in=agreements)
-#         return operations
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         ctx = super().get_context_data(object_list=None, **kwargs)
-#         user = self.request.user
-#         tenant = Tenant.objects.get(user=user)
-#         agreements = Agreement.objects.filter(tenant=tenant)
-#         ctx.update({'agreements': agreements})
-#         return ctx
+class AddObligationsView(View):
+
+    def get(self, request, id_agreement):
+        user = self.request.user
+        if user.is_superuser:
+            obligation_type = OperationDict.objects.get(pk=1)  # operacja naliczenia
+            agreement = Agreement.objects.get(pk=id_agreement)
+            actual_obligations = agreement.operation_set.filter(type=obligation_type)
+
+            actual_obligation_dates_list = []
+            for actual_obligation in actual_obligations:
+                obligation_tmp = datetime(actual_obligation.date.year, actual_obligation.date.month, 1).date()
+                if obligation_tmp not in actual_obligation_dates_list:
+                    actual_obligation_dates_list.append(obligation_tmp)
+
+            start_date = datetime(agreement.date_from.year, agreement.date_from.month, 1).date()
+            if agreement.date_from.day > 1:
+                start_date = start_date + timedelta(days=35)
+                start_date = datetime(start_date.year, start_date.month, 1).date()
+
+            if datetime.now().date() <= agreement.date_to:
+                end_date = datetime.now().date()
+            else:
+                end_date = agreement.date_to
+
+            while start_date <= end_date:
+                if start_date not in actual_obligation_dates_list:  # dodawanie nowych naliczeń
+                    Operation.objects.create(agreement=agreement,
+                                             type=obligation_type,
+                                             date=start_date,
+                                             value=-agreement.mth_payment_value,
+                                             info=f"Naliczenie za okres {start_date.year}/{start_date.month}")
+                start_date = start_date + timedelta(days=35)
+                start_date = datetime(start_date.year, start_date.month, 1).date()
+        return redirect(f"/myrent/agreement/{id_agreement}")
+
+
+class CreateFlatView(CreateView):
+    model = Flat
+    fields = "__all__"
+    success_url = "/myrent/"
+
+
+class FlatDeleteView(DeleteView):
+    model = Flat
+    success_url = reverse_lazy('flat-list')
+
+
+class FlatUpdateView(UpdateView):
+    model = Flat
+    fields = "__all__"
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('flat-list')

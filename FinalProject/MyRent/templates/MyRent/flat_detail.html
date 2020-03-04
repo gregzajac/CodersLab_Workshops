@@ -3,7 +3,28 @@
 {% block title %}Szczegóły mieszkania{% endblock %}
 
 {% block content %}
+  {% if user.is_authenticated %}
 
-  {{ flat }}
+    <div>
+      <b>Mieszkanie:</b> {{ object }}<br>
+      <b>Opis:</b> {{ object.info }}
+    </div><br>
+    <b>Zdjęcia:</b>
+    <div class="row">
+      {% for image in images %}
+      <div class="col-2">
+        <a class="d-block mb-4 h-100">
+          <img class="img-fluid " src="{{ image.picture.url }}" alt="{{ image }}">
+        </a>
+      </div>
+      {% endfor %}
+    </div><br>
+    <div>
+      <button class="btn-sm btn-dark" style="background-color: darkblue"
+              onclick="location.href='{% url "flat-list" %}'">
+        Powrót
+      </button>
+    </div>
 
+  {% endif %}
 {% endblock %}

@@ -8,7 +8,7 @@ class Landlord(models.Model):
     last_name = models.CharField(max_length=64, verbose_name="Nazwisko")
     phone = models.CharField(max_length=16, verbose_name="Telefon", null=True)
     email = models.CharField(max_length=64, verbose_name="E-mail", null=True)
-    info = models.TextField(verbose_name="Dodatkowe info", null=True)
+    info = models.TextField(verbose_name="Dodatkowe info", null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, verbose_name="Właściciel")
 
     class Meta:
@@ -25,7 +25,7 @@ class Flat(models.Model):
     flat_number = models.CharField(max_length=64, verbose_name="Nr mieszkania", null=True)
     post_code = models.CharField(max_length=16, verbose_name="Kod pocztowy")
     city = models.CharField(max_length=64, verbose_name="Miasto")
-    info = models.TextField(verbose_name="Dodatkowe info", null=True)
+    info = models.TextField(verbose_name="Dodatkowe info", null=True, blank=True)
     landlord = models.ForeignKey(Landlord, verbose_name="Właściciel", on_delete=models.CASCADE, null=True)
     is_for_rent = models.BooleanField(default=True, verbose_name="Czy jest do wynajęcia")
 
@@ -77,7 +77,7 @@ class Agreement(models.Model):
     mth_payment_deadline = models.SmallIntegerField(verbose_name="Termin miesięcznej opłaty")
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, verbose_name="Najemca")
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name="Wynajmowane mieszkanie")
-    info = models.TextField(verbose_name="Dodatkowe info", null=True)
+    info = models.TextField(verbose_name="Dodatkowe info", null=True, blank=True)
 
     class Meta:
         verbose_name = u'Umowa'
@@ -111,7 +111,7 @@ class Operation(models.Model):
     type = models.ForeignKey(OperationDict, on_delete=models.CASCADE, verbose_name="Typ operacji finansowej")
     date = models.DateField(verbose_name="Data operacji")
     value = models.FloatField(verbose_name="Kwota operacji")
-    info = models.TextField(verbose_name="Dodatkowe info", null=True)
+    info = models.TextField(verbose_name="Dodatkowe info", null=True, blank=True)
 
     class Meta:
         verbose_name = u'Operacja finansowa'
@@ -119,3 +119,16 @@ class Operation(models.Model):
 
     def __str__(self):
         return f"{self.type} | {self.date} | {self.value}"
+
+
+class Image(models.Model):
+    picture = models.ImageField(default="no-img.png", verbose_name="Zdjęcie")
+    info = models.CharField(max_length=128, null=True, blank=True, verbose_name="Opis zdjęcia")
+    flat = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name="Mieszkanie dot. zdjęcia")
+
+    class Meta:
+        verbose_name = u'Zdjęcie'
+        verbose_name_plural = u'Zdjęcia'
+
+    def __str__(self):
+        return f"{self.flat} | {self.info}"
