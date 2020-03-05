@@ -4,9 +4,12 @@
   <div class="container">
     <form method="post">
       {% csrf_token %}
-        <p>Czy na pewno usunąć mieszkanie <b>{{ object }}</b>?</p>
+        <p>Modyfikuj operację dla umowy <b>{{ operation.agreement.code }}
+          ({{ operation.agreement.flat }}, {{ operation.agreement.tenant }})</b>
+        </p><br>
+        <table>{{ form.as_table }}</table>
         <button class="btn-sm btn-dark" style="background-color: darkviolet" type="submit">
-          Usuń
+          Modyfikuj
         </button>
     </form>
   </div>

@@ -4,7 +4,9 @@
   <div class="container">
     <form method="post">
       {% csrf_token %}
-        <p>Czy na pewno usunąć mieszkanie <b>{{ object }}</b>?</p>
+      <p>Czy na pewno usunąć umowę <b>{{ object.code }}</b> - mieszkanie <b>{{ object.flat }}</b>,
+        najemca <b>{{ object.tenant }}</b>?
+      </p>
         <button class="btn-sm btn-dark" style="background-color: darkviolet" type="submit">
           Usuń
         </button>

@@ -28,6 +28,14 @@
                  href="{% url 'agreement-list' %}">Umowy</a>
             </li>
           </ul>
+          {% if user.is_superuser %}
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link text-light"
+                   href="{% url 'tenant-list' %}">Najemcy</a>
+              </li>
+            </ul>
+          {% endif %}
           <span class="navbar-text text-light">
             Witaj {% block logged_user %}{{ user }}{% endblock %}!
           </span>
@@ -42,6 +50,7 @@
           </span>
 
         {% else %}
+
           <ul class="navbar-nav mr-auto">
           </ul>
           <span class="navbar-nav">
@@ -67,7 +76,7 @@
   <footer class="footer mt-auto py-3">
     <div>
       <span> Wersja 0.1, Autor: Grzegorz Zając</span>
-      {% if not user.is_authenticated %}
+      {% if not user.is_authenticated or user.is_superuser%}
         <span style="float: right"><a href="/admin/">Admin panel</a></span>
       {% endif %}
     </div>

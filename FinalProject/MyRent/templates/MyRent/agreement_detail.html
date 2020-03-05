@@ -20,6 +20,8 @@
           <th scope="col">Data operacji</th>
           <th scope="col">Wartość</th>
           <th scope="col">Dodatkowe info</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +32,22 @@
             <td>{{ operation.date }}</td>
             <td>{{ operation.value }}</td>
             <td>{{ operation.info }}</td>
+
+            {% if user.is_superuser %}
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "modify-operation" operation.id %}'">
+                Modyfikuj
+              </button>
+            </td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "delete-operation" operation.id %}'">
+                Usuń
+              </button>
+            </td>
+            {% endif %}
+
           </tr>
         {% endfor %}
           <tr class="font-weight-bold">
@@ -42,14 +60,27 @@
 
       </tbody>
     </table>
-    </div>
+    </div><br>
 
-    <div class="container">
-      <button  class="btn-sm btn-dark" style="background-color: darkviolet"
-               onclick="location.href='{% url "add-obligations" object.id %}'">
-        Generuj naliczenia
-      </button>
-    </div>
+
+      <div class="container">
+
+        <button  class="btn-sm btn-dark" style="background-color: darkblue"
+                 onclick="location.href='{% url "agreement-list" %}'">
+          Powrót
+        </button>
+        {% if user.is_superuser %}
+        <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+                 onclick="location.href='{% url "add-obligations" object.id %}'">
+          Generuj naliczenia
+        </button>
+
+        <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+                 onclick="location.href='{% url "add-operation" object.id %}'">
+          Dodaj operację
+        </button>
+        {% endif %}
+      </div>
 
   {% endif %}
 {% endblock %}

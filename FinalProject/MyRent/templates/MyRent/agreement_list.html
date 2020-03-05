@@ -45,12 +45,36 @@
                       onclick="location.href='{% url "agreement-detail" agreement.id %}'">
                 Rozliczenia
               </button>
-
             </td>
+
+            {% if user.is_superuser %}
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "modify-agreement" agreement.id %}'">
+                Modyfikuj
+              </button>
+            </td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "delete-agreement" agreement.id %}'">
+                Usuń
+              </button>
+            </td>
+            {% endif %}
+
           </tr>
         {% endfor %}
       </tbody>
     </table>
+
+    {% if user.is_superuser %}
+    <div>
+      <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+               onclick="location.href='{% url "add-agreement"%}'">
+        Dodaj umowę
+      </button>
+    </div>
+    {% endif %}
 
   {% endif %}
 

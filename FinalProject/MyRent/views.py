@@ -1,10 +1,13 @@
 from datetime import datetime, timedelta
+
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from MyRent.models import Flat, Agreement, Operation, Tenant, OperationDict
+from MyRent.forms import OperationAgreementForm, ImageFlatForm
+from MyRent.models import Flat, Agreement, Operation, Tenant, OperationDict, Image
 
 
 class FlatListView(ListView):
@@ -94,10 +97,13 @@ class AddObligationsView(View):
         return redirect(f"/myrent/agreement/{id_agreement}")
 
 
-class CreateFlatView(CreateView):
+class CreateFlatView(UserPassesTestMixin, CreateView):
     model = Flat
     fields = "__all__"
-    success_url = "/myrent/"
+    success_url = reverse_lazy('flat-list')
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class FlatDeleteView(DeleteView):
@@ -110,3 +116,112 @@ class FlatUpdateView(UpdateView):
     fields = "__all__"
     template_name_suffix = '_update_form'
     success_url = reverse_lazy('flat-list')
+
+
+class AgreementCreateView(CreateView):
+    model = Agreement
+    fields = "__all__"
+    success_url = reverse_lazy('agreement-list')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['flat'].queryset = Flat.objects.filter(is_for_rent=True)
+        return form
+
+
+class AgreementDeleteView(DeleteView):
+    model = Agreement
+    success_url = reverse_lazy('agreement-list')
+
+
+class AgreementUpdateView(UpdateView):
+    model = Agreement
+    fields = "__all__"
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('agreement-list')
+
+
+class OperationCreateView(View):
+    def get(self, request, agreement_id):
+        agreement = Agreement.objects.get(pk=agreement_id)
+        form = OperationAgreementForm()
+        ctx = {
+            "form": form,
+            "agreement": agreement
+        }
+        return render(request, "MyRent/operation_form.html", ctx)
+
+    def post(self, request, agreement_id):
+        form = OperationAgreementForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.agreement = Agreement.objects.get(pk=agreement_id)
+            obj.save()
+        return redirect(reverse_lazy('agreement-detail', kwargs={"agreement_id": agreement_id}))
+
+
+class OperationDeleteView(DeleteView):
+    model = Operation
+
+    def get_success_url(self):
+        agreement_id = self.object.agreement.id
+        return reverse_lazy('agreement-detail', kwargs={"pk": agreement_id})
+
+
+class OperationUpdateView(UpdateView):
+    model = Operation
+    fields = ["type", "date", "value", "info"]
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        agreement_id = self.object.agreement.id
+        return reverse_lazy('agreement-detail', kwargs={"pk": agreement_id})
+
+
+class ImageCreateView(View):
+    def get(self, request, flat_id):
+        flat = Flat.objects.get(pk=flat_id)
+        form = ImageFlatForm()
+        ctx = {
+            "form": form,
+            "flat": flat
+        }
+        return render(request, "MyRent/image_form.html", ctx)
+
+    def post(self, request, flat_id):
+        form = ImageFlatForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.flat = Flat.objects.get(pk=flat_id)
+            obj.save()
+        return redirect(reverse_lazy('flat-detail', kwargs={"pk": flat_id}))
+
+
+class ImageDeleteView(DeleteView):
+    model = Image
+
+    def get_success_url(self):
+        flat_id = self.object.flat.id
+        return reverse_lazy('flat-detail', kwargs={"pk": flat_id})
+
+
+class TenantListView(ListView):
+    model = Tenant
+
+
+class TenantCreateView(CreateView):
+    model = Tenant
+    fields = "__all__"
+    success_url = reverse_lazy('tenant-list')
+
+
+class TenantUpdateView(UpdateView):
+    model = Tenant
+    fields = "__all__"
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('tenant-list')
+
+
+class TenantDeleteView(DeleteView):
+    model = Tenant
+    success_url = reverse_lazy('tenant-list')

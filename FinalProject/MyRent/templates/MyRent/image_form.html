@@ -2,11 +2,13 @@
 
 {% block content %}
   <div class="container">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
-        <p>Czy na pewno usunąć mieszkanie <b>{{ object }}</b>?</p>
+        <p>Dodaj zdjęcie do mieszkania<b>{{ flat }}</b>
+        </p><br>
+        <table>{{ form.as_table }}</table>
         <button class="btn-sm btn-dark" style="background-color: darkviolet" type="submit">
-          Usuń
+          Dodaj
         </button>
     </form>
   </div>

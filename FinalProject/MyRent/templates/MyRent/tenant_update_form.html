@@ -4,9 +4,9 @@
   <div class="container">
     <form method="post">
       {% csrf_token %}
-        <p>Czy na pewno usunąć mieszkanie <b>{{ object }}</b>?</p>
+        <table>{{ form.as_table }}</table>
         <button class="btn-sm btn-dark" style="background-color: darkviolet" type="submit">
-          Usuń
+          Modyfikuj
         </button>
     </form>
   </div>
