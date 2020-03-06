@@ -11,7 +11,7 @@
 5. Jako właściciel chcę trzymać podstawowe informacje o najemcach (imię, nazwisko, telefon, email, miejsce na dodatkowe informacje)
 6. Jako właściciel chcę modyfikować zawartość umowy lub usunąć daną umowę.
 7. Jako właściciel chcę prowadzić rozliczenia na danej umowie (dodawać/modyfikować/usuwać naliczenia oraz operacje finansowe) oraz widzieć saldo rozliczeń.
-8. Jako właściciel chcę móc generować wszystkie zaległe naliczenia na danej umowiej, jedno naliczenie na miesiąc (jeżeli najem nie rozpoczyna się od 1-ego danego miesiąca, pierwsze naliczenie powinno pojawić się w kolejnym miesiącu). Ostatnie naliczenie powinno być w miesiącu końca najmu.
+8. Jako właściciel chcę móc generować wszystkie zaległe naliczenia na danej umowiej, jedno naliczenie na miesiąc (jeżeli najem nie rozpoczyna się od 1-ego danego miesiąca, pierwsze naliczenie powinno pojawić się w kolejnym miesiącu). Ostatnie naliczenie powinno być w miesiącu generowania (najpóźniej w miesiącu końca najmu).
 9. Jako najemca chcę widzieć wszytkie swoje umowy i rozliczenia (także na umowach historycznych).
 10. Jako najemca chcę móc zmienić hasło
 11. Jako dowolny użytkownić chcę móc przeglądać listę mieszkań wraz z ich zdjęciami oraz widzieć dane kontaktowe właściciela.
