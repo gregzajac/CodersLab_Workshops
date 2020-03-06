@@ -1,8 +1,8 @@
 # CodersLab_Workshops
 
-##FinalProject - aplikacja do zarządzania wynajmem mieszkań
+## FinalProject - aplikacja do zarządzania wynajmem mieszkań
 
-###UseCases
+### UseCases
 
 1. Jako właściciel chcę móc dodawać nowe mieszkanie oraz modyfikować lub usuwać istniejące. Mieszkanie powinno zawierać adres i dodatkowy opis dla potencjalnych najemców.
 2. Jako właściciel chcę móc dodać/usunąć zdjęcia do danego mieszkania (wiele zdjęć do jednego mieszkania).
