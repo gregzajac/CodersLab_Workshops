@@ -157,7 +157,7 @@ class OperationCreateView(View):
             obj = form.save(commit=False)
             obj.agreement = Agreement.objects.get(pk=agreement_id)
             obj.save()
-        return redirect(reverse_lazy('agreement-detail', kwargs={"agreement_id": agreement_id}))
+        return redirect(reverse_lazy('agreement-detail', kwargs={"pk": agreement_id}))
 
 
 class OperationDeleteView(DeleteView):
